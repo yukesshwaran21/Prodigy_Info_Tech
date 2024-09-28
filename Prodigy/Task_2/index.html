@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2a5298;
+        }
+
+        .gradient-circle {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #1e3c72, #2a5298);
+            border-radius: 50%;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1e3c72;
+            color: white;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #1e3c72;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2a5298;
+        }
+
+        .auth-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Employee Management System</h1>
+
+    <div class="gradient-circle"></div>
+
+    <!-- CRUD Form -->
+    <div>
+        <h2>Add Employee</h2>
+        <input type="text" id="empName" placeholder="Employee Name" required>
+        <input type="number" id="empAge" placeholder="Employee Age" required>
+        <input type="text" id="empDept" placeholder="Department" required>
+        <button onclick="addEmployee()">Add Employee</button>
+    </div>
+
+    <!-- Employee Table -->
+    <h2>Employee Records</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="employeeTable">
+            <!-- Employee rows will be added here -->
+        </tbody>
+    </table>
+
+    <!-- Inline JavaScript -->
+    <script>
+        let employees = [];
+        let empId = 0;
+
+        // Add Employee Function
+        function addEmployee() {
+            const name = document.getElementById('empName').value;
+            const age = document.getElementById('empAge').value;
+            const dept = document.getElementById('empDept').value;
+
+            if (name && age && dept) {
+                empId++;
+                employees.push({ id: empId, name: name, age: age, department: dept });
+                displayEmployees();
+                clearForm();
+            } else {
+                alert("All fields are required!");
+            }
+        }
+
+        // Display Employees Function
+        function displayEmployees() {
+            const employeeTable = document.getElementById('employeeTable');
+            employeeTable.innerHTML = '';
+
+            employees.forEach(emp => {
+                employeeTable.innerHTML += `
+                    <tr>
+                        <td>${emp.id}</td>
+                        <td>${emp.name}</td>
+                        <td>${emp.age}</td>
+                        <td>${emp.department}</td>
+                        <td>
+                            <button onclick="editEmployee(${emp.id})">Edit</button>
+                            <button onclick="deleteEmployee(${emp.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Clear form after adding employee
+        function clearForm() {
+            document.getElementById('empName').value = '';
+            document.getElementById('empAge').value = '';
+            document.getElementById('empDept').value = '';
+        }
+
+        // Edit Employee
+        function editEmployee(id) {
+            const emp = employees.find(emp => emp.id === id);
+            if (emp) {
+                document.getElementById('empName').value = emp.name;
+                document.getElementById('empAge').value = emp.age;
+                document.getElementById('empDept').value = emp.department;
+
+                deleteEmployee(id); // Remove employee before editing
+            }
+        }
+
+        // Delete Employee
+        function deleteEmployee(id) {
+            employees = employees.filter(emp => emp.id !== id);
+            displayEmployees();
+        }
+    </script>
+
+</body>
+</html>

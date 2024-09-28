@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication System</title>
+    <style>
+        /* Inline CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .gradient-circle {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #1e3c72, #2a5298);
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .gradient-square {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: inline-block;
+            margin-left: 20px;
+        }
+        .lock-icon {
+            font-size: 24px;
+            margin-top: 20px;
+            display: block;
+        }
+        .auth-container {
+            margin-top: 50px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e3c72;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2a5298;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Authentication System</h1>
+
+    <!-- Gradient Shapes -->
+    <div class="gradient-circle"></div>
+    <div class="gradient-square"></div>
+
+    <!-- Lock Icon -->
+    <span class="lock-icon">&#128274; Lock Icon</span>
+
+    <!-- User Authentication Form -->
+    <div class="auth-container">
+        <h2>Register</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="register()">Register</button>
+
+        <h2>Login</h2>
+        <input type="text" id="login-username" placeholder="Username" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+
+        <p id="auth-message" style="color:red; margin-top: 10px;"></p>
+    </div>
+
+    <!-- Inline JavaScript -->
+    <script>
+        // Simple authentication data structure (in a real app, this would be a backend server)
+        const users = {};
+
+        function register() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username && password) {
+                if (users[username]) {
+                    document.getElementById('auth-message').innerText = 'User already exists!';
+                } else {
+                    users[username] = password; // Insecure storage, don't use in real apps!
+                    document.getElementById('auth-message').innerText = 'User registered successfully!';
+                }
+            } else {
+                document.getElementById('auth-message').innerText = 'Please fill out all fields.';
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if (username && password) {
+                if (users[username] && users[username] === password) {
+                    document.getElementById('auth-message').innerText = 'Login successful! Welcome, ' + username;
+                } else {
+                    document.getElementById('auth-message').innerText = 'Invalid username or password.';
+                }
+            } else {
+                document.getElementById('auth-message').innerText = 'Please fill out all fields.';
+            }
+        }
+    </script>
+
+</body>
+</html>
